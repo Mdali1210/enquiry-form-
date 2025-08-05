@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Enquiry Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
+    input { width: 100%; padding: 8px; margin: 5px 0 15px; box-sizing: border-box; }
+    button { background: #4285f4; color: white; border: none; padding: 10px 15px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Enquiry Form</h1>
+  <form id="enquiryForm">
+    <label for="contactName">Contact Name:</label>
+    <input type="text" id="contactName" required>
+
+    <label for="contactNumber">Primary Contact Number:</label>
+    <input type="tel" id="contactNumber" required>
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" required>
+
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" required>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="message"></div>
+
+  <script>
+    document.getElementById("enquiryForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      const scriptUrl = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL"; // Paste the URL from Step 1 here
+
+      const formData = {
+        contactName: document.getElementById("contactName").value,
+        contactNumber: document.getElementById("contactNumber").value,
+        location: document.getElementById("location").value,
+        email: document.getElementById("email").value
+      };
+
+      fetch(scriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("message").innerHTML = "Submitted successfully!";
+        document.getElementById("enquiryForm").reset();
+      })
+      .catch(error => {
+        document.getElementById("message").innerHTML = "Error: " + error.message;
+      });
+    });
+  </script>
+</body>
+</html>
